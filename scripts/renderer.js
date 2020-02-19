@@ -48,22 +48,22 @@ class Renderer {
 
     // framebuffer:  canvas ctx image data
     drawSlide0(framebuffer) {
-        
+        //TODO draw rectangle
     }
 
     // framebuffer:  canvas ctx image data
     drawSlide1(framebuffer) {
-
+        //TODO draw circle
     }
 
     // framebuffer:  canvas ctx image data
     drawSlide2(framebuffer) {
-
+        //TODO draw bezier curve
     }
 
     // framebuffer:  canvas ctx image data
     drawSlide3(framebuffer) {
-
+        //TODO draw name
     }
 
     // left_bottom:  object ({x: __, y: __})
@@ -71,15 +71,15 @@ class Renderer {
     // color:        array of int [R, G, B, A]
     // framebuffer:  canvas ctx image data
     drawRectangle(left_bottom, right_top, color, framebuffer) {
-        
+        //TODO drawRectangle()
     }
 
     // center:       object ({x: __, y: __})
     // radius:       int
     // color:        array of int [R, G, B, A]
     // framebuffer:  canvas ctx image data
-    drawCirle(center, radius, color, framebuffer) {
-        
+    drawCircle(center, radius, color, framebuffer) {
+        //TODO drawCircle()
     }
 
     // pt0:          object ({x: __, y: __})
@@ -89,7 +89,7 @@ class Renderer {
     // color:        array of int [R, G, B, A]
     // framebuffer:  canvas ctx image data
     drawBezierCurve(pt0, pt1, pt2, pt3, color, framebuffer) {
-        
+        //TODO drawBezierCurve()
     }
 
     // pt0:          object ({x: __, y: __})
@@ -98,6 +98,7 @@ class Renderer {
     // framebuffer:  canvas ctx image data
     drawLine(pt0, pt1, color, framebuffer)
     {
+        //TODO drawLine()
         // code from class here
     }
 };
