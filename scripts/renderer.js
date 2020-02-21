@@ -55,18 +55,93 @@ class Renderer {
 
     // framebuffer:  canvas ctx image data
     drawSlide1(framebuffer) {
-        //TODO draw circle
         this.drawCircle({x: 400, y: 350}, 150, [0, 200, 0, 255], framebuffer); 
     }
 
     // framebuffer:  canvas ctx image data
     drawSlide2(framebuffer) {
-        //TODO draw bezier curve
+        this.drawBezierCurve({x: 100, y: 100}, {x: 100, y: 400}, {x: 400, y: 100}, {x: 400, y: 400}, [0, 0, 255, 255], framebuffer); 
     }
 
     // framebuffer:  canvas ctx image data
     drawSlide3(framebuffer) {
         //TODO draw name
+        //this.drawSlide4(framebuffer);
+        
+        //Bezier curves: start of curve, goal 1, goal 2, end of curve. 
+        
+        //canvas is 800 pixels wide, 600 pixels tall. 
+        //Each letter gets 133 pixels width. 125 if there are 25 pixels blank on each end. 
+        //Each letter sits comfortably at y 200 - 400. 
+        var color = [255, 0, 0, 255]; 
+        
+        var ymin = 200; 
+        var ymax = 400; 
+        var ymid = 300; 
+        
+        var xmin = 25; 
+        var xmax = xmin + 125; 
+        var xmid = (xmax - xmin) / 2 + xmin; 
+        
+        //Letter 1: S
+        this.drawBezierCurve({x: xmid, y: ymid}, {x: xmin, y: ymid}, {x: xmin, y: ymax}, {x: xmax - 50, y: ymax}, color, framebuffer); 
+        this.drawBezierCurve({x: xmin + 50, y: ymin}, {x: xmax, y: ymin}, {x: xmax, y: ymid}, {x: xmid, y: ymid}, color, framebuffer); 
+        
+        //next 
+        xmin += 125; 
+        xmax += 125; 
+        xmid = (xmax - xmin) / 2 + xmin; 
+        color = [0, 255, 0, 255]; 
+        
+        //Letter 2: h
+        this.drawLine({x: xmin, y: ymin}, {x: xmin, y: ymax}, color, framebuffer); 
+        this.drawBezierCurve({x: xmin, y: ymin}, {x: xmin, y: ymid}, {x: xmax, y: ymid}, {x: xmax, y: ymin}, color, framebuffer); 
+        
+        //next 
+        xmin += 125; 
+        xmax += 125; 
+        xmid = (xmax - xmin) / 2 + xmin; 
+        color = [0, 0, 255, 255]; 
+        
+        //Letter 3: e
+        this.drawLine({x: xmin, y: ymid}, {x: xmax, y: ymid}, color, framebuffer); 
+        this.drawBezierCurve({x: xmin, y: ymid}, {x: xmin, y: ymax}, {x: xmax, y: ymax}, {x: xmax, y: ymid}, color, framebuffer); 
+        this.drawBezierCurve({x: xmin, y: ymid}, {x: xmin, y: ymin}, {x: xmax, y: ymin}, {x: xmax, y: ymid - 50}, color, framebuffer); 
+        
+        //next 
+        xmin += 125; 
+        xmax += 125; 
+        xmid = (xmax - xmin) / 2 + xmin; 
+        color = [200, 200, 0, 255]; 
+        
+        //Letter 4: i
+        this.drawLine({x: xmid, y: ymin}, {x: xmid, y: ymid}, color, framebuffer); 
+        this.drawLine({x: xmid, y: ymax - 50}, {x: xmid, y: ymax - 25}, color, framebuffer); 
+        
+        //next 
+        xmin += 125; 
+        xmax += 125; 
+        xmid = (xmax - xmin) / 2 + xmin; 
+        color = [0, 200, 200, 255]; 
+        
+        //Letter 5: l
+        this.drawLine({x: xmid, y: ymin}, {x: xmid, y: ymax}, color, framebuffer); 
+        
+        //next
+        xmin += 125; 
+        xmax += 125; 
+        xmid = (xmax - xmin) / 2 + xmin; 
+        color = [200, 0, 200, 255]; 
+        
+        //Letter 6: a
+        this.drawCircle({x: xmid, y: ymid}, 62.5, color, framebuffer); 
+        this.drawLine({x: xmax, y: ymid - 62.5}, {x: xmax, y: ymid + 62.5}, color, framebuffer); 
+    }
+    
+    // framebuffer:  canvas ctx image data
+    drawSlide4(framebuffer) {
+        //this is a slide of debugging output. 
+        
         this.drawLine({x: 50, y: 100}, {x: 300, y: 250}, [255, 0, 0, 255], framebuffer); //up flattish red left- first
         this.drawLine({x: 300, y: 250}, {x: 50, y: 100}, [255, 0, 0, 255], framebuffer); //up flattish red right- first
         this.drawLine({x: 50, y: 250}, {x: 300, y: 100}, [35, 200, 10, 255], framebuffer); //down flattish greenish left- first 
@@ -74,8 +149,8 @@ class Renderer {
         
         this.drawLine({x: 350, y: 100}, {x: 450, y: 500}, [65, 80, 235, 255], framebuffer); //up steep blueish left- first
         this.drawLine({x: 450, y: 500}, {x: 350, y: 100}, [65, 80, 235, 255], framebuffer); //up steep blueish right- first
-        this.drawLine({x: 350, y: 500}, {x: 450, y: 100}, [235, 80, 235, 255], framebuffer); //down steep purplish left- first BROKEN
-        this.drawLine({x: 450, y: 100}, {x: 350, y: 500}, [235, 80, 235, 255], framebuffer); //down steep purplish right- first BROKEN
+        this.drawLine({x: 350, y: 500}, {x: 450, y: 100}, [235, 80, 235, 255], framebuffer); //down steep purplish left- first 
+        this.drawLine({x: 450, y: 100}, {x: 350, y: 500}, [235, 80, 235, 255], framebuffer); //down steep purplish right- first 
         
         this.drawLine({x: 175, y: 100}, {x: 175, y: 250}, [230, 230, 0, 255], framebuffer); //up straight orange down- first
         this.drawLine({x: 175, y: 100}, {x: 175, y: 250}, [230, 230, 0, 255], framebuffer); //up straight orange up- first
@@ -88,7 +163,6 @@ class Renderer {
     // color:        array of int [R, G, B, A]
     // framebuffer:  canvas ctx image data
     drawRectangle(left_bottom, right_top, color, framebuffer) {
-        //TODO drawRectangle()
         var LB, LT, RB, RT; 
         LB = left_bottom; 
         LT = {x: left_bottom.x, y: right_top.y}; 
@@ -116,7 +190,7 @@ class Renderer {
         }
         
         for(var i = 0; i < this.num_curve_sections; i++) {
-            this.drawLine(points[i], points[(i + 1) % this.num_curve_sections], [0, 200, 0, 255], framebuffer); 
+            this.drawLine(points[i], points[(i + 1) % this.num_curve_sections], color, framebuffer); 
         }
     }
 
@@ -127,7 +201,18 @@ class Renderer {
     // color:        array of int [R, G, B, A]
     // framebuffer:  canvas ctx image data
     drawBezierCurve(pt0, pt1, pt2, pt3, color, framebuffer) {
-        //TODO drawBezierCurve()
+        var section_size = 1 / this.num_curve_sections; 
+        var points = new Array(); 
+        
+        for(var t = 0, i = 0; i <= this.num_curve_sections; t += section_size, i++) {
+            points.push({x: undefined, y: undefined}); 
+            points[i].x = Math.pow(1 - t, 3) * pt0.x  +  3 * Math.pow(1 - t, 2) * t * pt1.x  +  3 * (1 - t) * Math.pow(t, 2) * pt2.x  +  Math.pow(t, 3) * pt3.x; 
+            points[i].y = Math.pow(1 - t, 3) * pt0.y  +  3 * Math.pow(1 - t, 2) * t * pt1.y  +  3 * (1 - t) * Math.pow(t, 2) * pt2.y  +  Math.pow(t, 3) * pt3.y; 
+        }
+        
+        for(var i = 0; i < this.num_curve_sections; i++) {
+            this.drawLine(points[i], points[i + 1], color, framebuffer); 
+        }
     }
     
     drawPoint(pt, color, framebuffer) {
