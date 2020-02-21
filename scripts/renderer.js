@@ -69,12 +69,12 @@ class Renderer {
         //TODO draw name
         this.drawLine({x: 50, y: 100}, {x: 300, y: 250}, [255, 0, 0, 255], framebuffer); //up flattish red left- first
         this.drawLine({x: 300, y: 250}, {x: 50, y: 100}, [255, 0, 0, 255], framebuffer); //up flattish red right- first
-        this.drawLine({x: 50, y: 250}, {x: 300, y: 100}, [35, 200, 10, 255], framebuffer); //down flattish greenish left- first BROKEN
+        this.drawLine({x: 50, y: 250}, {x: 300, y: 100}, [35, 200, 10, 255], framebuffer); //down flattish greenish left- first 
         this.drawLine({x: 300, y: 100}, {x: 50, y: 250}, [35, 200, 10, 255], framebuffer); //down flattish greenish right- first
         
         this.drawLine({x: 350, y: 100}, {x: 450, y: 500}, [65, 80, 235, 255], framebuffer); //up steep blueish left- first
         this.drawLine({x: 450, y: 500}, {x: 350, y: 100}, [65, 80, 235, 255], framebuffer); //up steep blueish right- first
-        this.drawLine({x: 350, y: 500}, {x: 450, y: 100}, [235, 80, 235, 255], framebuffer); //down steep purplish left- first
+        this.drawLine({x: 350, y: 500}, {x: 450, y: 100}, [235, 80, 235, 255], framebuffer); //down steep purplish left- first BROKEN
         this.drawLine({x: 450, y: 100}, {x: 350, y: 500}, [235, 80, 235, 255], framebuffer); //down steep purplish right- first BROKEN
         
         this.drawLine({x: 175, y: 100}, {x: 175, y: 250}, [230, 230, 0, 255], framebuffer); //up straight orange down- first
@@ -106,23 +106,16 @@ class Renderer {
     // color:        array of int [R, G, B, A]
     // framebuffer:  canvas ctx image data
     drawCircle(center, radius, color, framebuffer) {
-        //TODO drawCircle()
-        console.log("**************"); 
-        
-        //take in the sides and plan a polygon of that many sides
         var curve_radians = (2*Math.PI) / this.num_curve_sections; //there are 2pi radians in a circle
         var points = new Array(); 
         
         for(var i = 0; i < this.num_curve_sections; i++) {
             points.push({x: undefined, y: undefined}); 
-            //don't need modulus because sin and cos are already circular
             points[i].x = center.x + radius * Math.cos(curve_radians * i); 
             points[i].y = center.y + radius * Math.sin(curve_radians * i); 
         }
         
         for(var i = 0; i < this.num_curve_sections; i++) {
-            console.log("drawing (full) from ", points[i], " to ", points[(i + 1) % this.num_curve_sections]); 
-            console.log("drawing (flat) from ", Math.floor(points[i].x), Math.floor(points[i].y), " to ", Math.floor(points[(i + 1) % this.num_curve_sections].x), Math.floor(points[(i + 1) % this.num_curve_sections].y)); 
             this.drawLine(points[i], points[(i + 1) % this.num_curve_sections], [0, 200, 0, 255], framebuffer); 
         }
     }
@@ -159,26 +152,43 @@ class Renderer {
             this.drawPoint(pt1, color, framebuffer); 
         }
         
-        //draw left to right or bottom to top
-        if(x0 > x1 || y0 > y1) {
-            let temp; 
-            temp = x0; 
-            x0 = x1; 
-            x1 = temp; 
-            temp = y0; 
-            y0 = y1; 
-            y1 = temp; 
-        }
-        
         //find the direction and slope
         var dy = y1 - y0;
         var dx = x1 - x0;
         
         //slope is flattish, draw f(x)
-        if (dx > dy) this.drawLineLow(dx, dy, x0, y0, x1, y1, color, framebuffer); 
-        //slope is uppish, draw g(y)
-        else        this.drawLineHigh(dx, dy, x0, y0, x1, y1, color, framebuffer); 
+        if (Math.abs(dx) > Math.abs(dy)) {
+            //draw left to right
+            if(x0 > x1) {
+                let temp; 
+                temp = x0; 
+                x0 = x1; 
+                x1 = temp; 
+                temp = y0; 
+                y0 = y1; 
+                y1 = temp; 
+                dx *= -1; 
+                dy *= -1; 
+            }
+            this.drawLineLow(dx, dy, x0, y0, x1, y1, color, framebuffer); 
+        }
         
+        //slope is uppish, draw g(y)
+        else {
+            //draw bottom to top
+            if(y0 > y1) {
+                let temp; 
+                temp = x0; 
+                x0 = x1; 
+                x1 = temp; 
+                temp = y0; 
+                y0 = y1; 
+                y1 = temp; 
+                dx *= -1; 
+                dy *= -1; 
+            }
+            this.drawLineHigh(dx, dy, x0, y0, x1, y1, color, framebuffer); 
+        }
     }
     
     drawLineLow(dx, dy, x0, y0, x1, y1, color, framebuffer)
